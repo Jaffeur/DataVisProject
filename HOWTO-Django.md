@@ -1,4 +1,4 @@
-# Projet Japan Tsunami
+# Projet Data Visualisation
 
 
 ## 1. Django Server
