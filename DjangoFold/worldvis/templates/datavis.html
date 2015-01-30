@@ -1,0 +1,19 @@
+{% load dajaxice_templatetags %}
+{% load staticfiles %}
+
+<html>
+<head>
+	<title>World Cluster</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script src="{% static "worldvis/world_map.js" %} "></script>
+
+</head>
+<body>
+
+	<div id="container" style="position: relative; width: 500px; height: 300px;"></div>
+	<script>
+		var map = new Datamap({element: document.getElementById('container')});
+	</script>
+</body>
+</html>
