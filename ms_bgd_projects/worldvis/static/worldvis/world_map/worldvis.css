@@ -6,3 +6,8 @@ h1, h2, h3 {
 	color : #FFFFFF;
 	text-align: center;
 }
+
+.dropdown-menu {
+	max-height: 500%;
+	overflow: scroll;
+}
