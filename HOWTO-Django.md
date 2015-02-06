@@ -22,13 +22,25 @@ Go in the folder where you want to put your code, __/home__ is better than /usr/
 ```
 django-admin.py startproject mysite
 ```
+To run Django, go into your site folder __mysite/__:
+```
+python manage.py runserver
+```
 ---
 ### 1.3 Setup Database
-(TODO)
+* ####If you don't use any database setup the **mysite/settings.py** like this
+```python
+DATABASES = {
+    'default': {
+      'ENGINE': None,
+      'NAME': None,
+    }
+}
+```
 
 ---
-### 1.4 Model
-* ####Create a model
+### 1.4 Application
+* ####Create an application
 
 For each app you want to create for your project you need a model. The model folder can be putted anywhere in the python path, but in our case, as we don't need several app, so we will put in our project folder next to manage.py:
 ```
@@ -52,9 +64,9 @@ mysite/
         tests.py
         views.py
 ```
-* ##### Activate model
+* ##### Activate application
 
-Edit the mysite/settings.py file again, and change the INSTALLED_APPS setting to include the string 'polls'. So it’ll look like this:
+Edit the **mysite/settings.py** file again, and change the INSTALLED_APPS setting to include the string 'polls'. So it’ll look like this:
 ```
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -72,7 +84,7 @@ When you make changes __in__ your model, to notify django we made some changes, 
 
 ---
 ### 1.5 Create view
-Set up the views.py in your model. Simple example:
+Set up the views.py in your app. Simple example:
 ```python
 from django.http import HttpResponse
 
@@ -86,15 +98,26 @@ def japan_map(request):
 You have __two__ kind of urls.py files: the __urls.py of your project__, will redirect url requests to __urls.py of your apps__, witch you have to build.
 For example let's say we want "http://localhost:8000/ms_bgd_project/japan_map" to show our view of the japan map witch correspond
 ```python
+#in mysite/japan_map/urls.py
 from django.conf.urls import patterns, url
-
 from japan_map import views
 
 urlpatterns = patterns('',
     url(r'^$', views.japan_map, name='japan_map'),
 )
 ```
+```python
+#in mysite/urls.py
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
 
+urlpatterns = patterns('',
+url(r'^japan_tsunami/', include('japan_map.urls')),
+)
+```
+---
+### 1.7 Templates
+A template is simply a text file. It can generate any text-based format (HTML, XML, CSV, etc.). A template contains variables, which get replaced with values when the template is evaluated, and tags, which control the logic of the template.
 
 ---
 ### 1.7 Sockets
