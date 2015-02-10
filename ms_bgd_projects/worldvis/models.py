@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 #from django.db import models
 
 # Create your models here.
@@ -10,6 +12,7 @@ import sys
 from sklearn.cluster import KMeans
 
 def clusterKMeans(path,countries,features,nb_c) :
+#INPUT:
 #path="/home/DataVisProject/ms_bgd_projects/"
 #path="/home/frederic/Visualisation/"
 #countries="BEL,FRA,DEU,USA"
@@ -17,6 +20,12 @@ def clusterKMeans(path,countries,features,nb_c) :
 #features="5,6,7,8,9,10,39"
 #nb_c=2
 #Le nb de cluster nb_c doit etre <= nb de countries selectionnes !
+#OUTPUT:
+#j_mat, json de la matrice : pour chaque pays, son numéro de cluster (méthode ecart-type)
+#j_mat_D, json de la matrice : pour chaque pays, son numéro de cluster (méthode décile)
+#KCenters, nd array indiquant les valeurs de chaque cluster sur ses axes (méthode écart-type)
+#KCenters_D, nd array indiquant les valeurs de chaque cluster sur ses axes (methode décile)
+#features: liste des features
         dir=path
         nomFic=dir+'factbookpro.csv'
               
@@ -53,7 +62,7 @@ def clusterKMeans(path,countries,features,nb_c) :
         mean=np.mean(d_eco)
         d_eco=d_eco-mean
 
-        nb_pays, nb_features = d_eco.shape
+        nb_pays, nb_features = d_eco.shape  
         if (nb_clusters>nb_pays):
                print("le nb de clusters doit etre inf ou egal au nb de pays")
                print("nb clusters ",nb_clusters, " nb pays apres cleaning ",nb_pays)
@@ -76,11 +85,12 @@ def clusterKMeans(path,countries,features,nb_c) :
         labels=estimator.labels_
         d_eco['cluster']=labels
 
-        print("taille des clusters KMeans sur colonnes centrees",d_eco.groupby('cluster').size())
+#DEB        print("taille des clusters KMeans sur colonnes centrees",d_eco.groupby('cluster').size())
 
         j_mat=d_eco['cluster'].to_json()
-        j_centroids=pd.DataFrame(estimator.cluster_centers_).to_json(orient='index')
-
+        KCenters =estimator.cluster_centers_
+        #print KCenters
+        #j_centroids=pd.DataFrame(KCenters).to_json(orient='index')
 #calcul des deciles :
         col_analyse=[]
         for i in liste :
@@ -101,18 +111,20 @@ def clusterKMeans(path,countries,features,nb_c) :
         labels=estimator.labels_
         d_eco['cluster_d']=labels
 
-        print("taille des clusters KMeans sur colonnes deciles",d_eco.groupby('cluster_d').size())
-
-        j_centroids_d=pd.DataFrame(estimator.cluster_centers_).to_json(orient='index')
-
+#DEB        print("taille des clusters KMeans sur colonnes deciles",d_eco.groupby('cluster_d').size())
+        
         j_mat_D=d_eco['cluster_d'].to_json()
-        
-        return j_mat,j_mat_D,j_centroids,j_centroids_d
-         
-            
-        
-jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/frederic/Visualisation/","","13,14,24,34",8)
+        KCenters_D= estimator.cluster_centers_
+        #print KCenters_D
+        #j_centroids_d=pd.DataFrame().to_json(orient='index')
 
-
-
-
+#DEB        print features
+        #return j_mat,j_mat_D,j_centroids,j_centroids_d,
+        return j_mat,j_mat_D,KCenters,KCenters_D, features
+                 
+#jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/frederic/Visualisation/","","13,14,24,34",8)
+#jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
+jsM,jsM_D,KC,KC_D,FT =clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
+print (KC)
+print (KC_D)
+print (FT)
