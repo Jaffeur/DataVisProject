@@ -1,15 +1,45 @@
 # -*- coding: utf-8 -*-
 
-#from django.db import models
-
-# Create your models here.
 import pandas as pd
-#import csv
+import os.path
 import numpy as np
+import sys
+from sklearn.cluster import KMeans 
 #import matplotlib.pyplot as plt
-import sys 
+#import csv
 #import math
-from sklearn.cluster import KMeans
+current_path = os.path.dirname(__file__)
+
+def get_countries():
+  
+  europe = list()
+  africa =list()
+  north_america = list()
+  south_america = list()
+  asia = list()
+  oceania = list()
+
+  data = pd.read_csv(current_path+"/static/countries/countries.csv", sep=";")
+  for i, country in data.iterrows():
+    if country['continent'] == "AF":
+      africa.append([country['name'].strip(), country['iso3']])
+    elif country['continent'] == "EU":
+      europe.append([country['name'].strip(), country['iso3']])
+    elif country['continent'] == "SA":
+      south_america.append([country['name'].strip(), country['iso3']])
+    elif country['continent'] == "AS":
+      asia.append([country['name'].strip(), country['iso3']])
+    elif country['continent'] == "OC":
+      oceania.append([country['name'].strip(), country['iso3']])
+    elif country['continent'] == "AN":
+      north_america.append([country['name'].strip(), country['iso3']])
+
+  countries = { "europe": europe, "africa": africa, "north_america": north_america, "south_america": south_america, "asia": asia, "oceania": oceania}
+
+  return countries
+
+
+"""
 
 def clusterKMeans(path,countries,features,nb_c) :
 #INPUT:
@@ -41,8 +71,8 @@ def clusterKMeans(path,countries,features,nb_c) :
         
         ls=features
         if (ls==""):
-                print("il faut selectionner au moins une colonne")
-                sys.exit(1)
+            print("il faut selectionner au moins une colonne")
+            sys.exit(1)
 
         lss=ls.split(',')
         liste=[]
@@ -128,3 +158,4 @@ jsM,jsM_D,KC,KC_D,FT =clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
 print (KC)
 print (KC_D)
 print (FT)
+"""
