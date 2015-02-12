@@ -38,10 +38,7 @@ def get_countries():
 
   return countries
 
-
-"""
-
-def clusterKMeans(path,countries,features,nb_c) :
+def clusterKMeans(countries,features,nb_c) :
 #INPUT:
 #path="/home/DataVisProject/ms_bgd_projects/"
 #path="/home/frederic/Visualisation/"
@@ -56,10 +53,10 @@ def clusterKMeans(path,countries,features,nb_c) :
 #KCenters, nd array indiquant les valeurs de chaque cluster sur ses axes (méthode écart-type)
 #KCenters_D, nd array indiquant les valeurs de chaque cluster sur ses axes (methode décile)
 #features: liste des features
-        dir=path
-        nomFic=dir+'factbookpro.csv'
+#        dir=path
+#        nomFic=dir+'factbookpro.csv'
               
-        data=pd.read_csv(nomFic,sep=';',header=0,index_col=0)
+        data=pd.read_csv(current_path+"/static/factbookpro.csv",sep=';',header=0,index_col=0)
         colonnes=pd.Series(data.columns)
         ls_pays=countries
         liste_pays=ls_pays.split(',')
@@ -109,8 +106,10 @@ def clusterKMeans(path,countries,features,nb_c) :
 #   d_eco[col]=d_eco[col]/norm
 #division par l'ecart-type :     
                ec=np.std(d_eco[col])
-               d_eco[col]=d_eco[col]/ec    
+               d_eco[col]=d_eco[col]/ec
 #
+        d_eco.to_csv(current_path+"/static/d_eco.csv", sep=";")
+        
         estimator.fit(d_eco)  
         labels=estimator.labels_
         d_eco['cluster']=labels
@@ -152,10 +151,13 @@ def clusterKMeans(path,countries,features,nb_c) :
         #return j_mat,j_mat_D,j_centroids,j_centroids_d,
         return j_mat,j_mat_D,KCenters,KCenters_D, features
                  
-#jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/frederic/Visualisation/","","13,14,24,34",8)
-#jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
-jsM,jsM_D,KC,KC_D,FT =clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
-print (KC)
-print (KC_D)
-print (FT)
-"""
+def clusterKMeans_Test():
+    #jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/frederic/Visualisation/","","13,14,24,34",8)
+    #jsM,jsM_D,jsC,jsC_D=clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
+    #jsM,jsM_D,KC,KC_D,FT =clusterKMeans("/home/xubuntu/","","13,14,24,34",8)
+    jsM,jsM_D,KC,KC_D,FT =clusterKMeans("","13,14,24,34",8)
+    print (KC)
+    print (KC_D)
+    print (FT)
+
+clusterKMeans_Test()
