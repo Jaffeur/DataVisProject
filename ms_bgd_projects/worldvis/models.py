@@ -147,7 +147,9 @@ def clusterKMeans(liste_pays,features,nb_c) :
                    ec=np.std(d_eco[col])
                    d_eco[col]=d_eco[col]/ec
     #
-            d_eco.to_csv(current_path+"/static/d_eco.csv", sep=";")
+#== fichier utilise pour diag moutaches == Mise en commentaires ======================
+#             d_eco.to_csv(current_path+"/static/d_eco.csv", sep=";")
+#=====================================================================================
             
             estimator.fit(d_eco)  
             labels=estimator.labels_
