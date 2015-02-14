@@ -4,17 +4,18 @@
 <html>
 <head>
 	<title>World Cluster</title>
-	{% static "/static/dajax/jquery.dajax.core.js" %}
 	<script src="{% static "worldvis/world_map/jquery.js" %}" charset="utf-8"></script>
 	<script src="{% static "worldvis/world_map/d3.v3.min.js" %}" charset="utf-8"></script>
 	<script src="{% static "worldvis/world_map/topojson.v1.min.js" %}"></script>
 	<script src="{% static "worldvis/world_map/world_map.js" %} "></script>
+	{% dajaxice_js_import %}
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="{% static "worldvis/world_map/worldvis.css" %}">
 	<script src="{% static "worldvis/world_map/worldvis.js" %}"></script>
 	<script src="{% static "worldvis/world_map/bootstrap.min.js" %}"></script>
 	<script src="{% static "worldvis/world_map/radar-plot.js" %}"></script>
+
 
 </head>
 <body>
@@ -26,8 +27,8 @@
 		<!-- CARTE-->
 		<div id="word_map" class="col-xs-8">
 			<div id="container" style=" width: 100%; height: 100%; margin-top: 10px;margin-bottom: -2%">
-			<script>
-				var map = new Datamap({element: document.getElementById('container')});
+			<script id="script_map">
+				var map = new Datamap({element: document.getElementById('container'), fills: {defaultFill: '#7A7A7A'},});
 			</script>
 			</div>
 		</div>
@@ -53,17 +54,30 @@
 						  </button>
 						  <ul class="dropdown-menu" role="menu">
 						  {% for country in continent %}
-						    <li><div class="checkbox"><label><input name="country" value="{{ country.1 }}" type="checkbox">{{ country.0 }}</label></div></li>
+						    <li><div class="checkbox"><label><input name="country" value="{{ country.1 }}" type="checkbox" checked>{{ country.0 }}</label></div></li>
 						    {% endfor %}
 						  </ul>
 						</div>
 					{% endfor %}
 					</div>
 					<div class="row">
-						<button type="submit" class="btn btn-default" onclick="setup_features()">GO!</button>
+						<div class="btn-group" id="myDropdown">
+						  <button type="button" class="btn btn-default btn-lg">Features</button>
+						  <button  type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						    <span class="caret"></span>
+						    <span class="sr-only">Toggle Dropdown</span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						  {% for feature in features %}
+						    <li><div class="checkbox"><label><input name="feature" value="{{ feature.0 }}" type="checkbox">{{ feature.1 }}</label></div></li>
+						    {% endfor %}
+						  </ul>
+						</div>
 					</div>
 				</form>
-
+				<div class="row">
+					<button type="submit" class="btn btn-default" onclick="setup_features()">GO!</button>
+				</div>
 			</div>
 			
 			<!-- CHOSE FEATURES -->
@@ -73,7 +87,7 @@
 	</div>
 
 
-	<!-- SPIDER CHART , BOX PLOT, CLUSTER's COUNTRIES -->
+	<!-- SPIDER CHART , BOX PLOT, CLUSTERS' COUNTRIES -->
 	<div class="row">
 	 nouvelle ligne
 

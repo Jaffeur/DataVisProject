@@ -7,8 +7,10 @@ import models
 
 
 # Create your views here.
+@requires_csrf_token
 def world_map(request):
 	countries = models.get_countries()
+	features = models.get_features()
 	template = "datavis.html"
-	return render(request, template, {'countries' : countries})
+	return render(request, template, {'countries' : countries, 'features' : features})
 

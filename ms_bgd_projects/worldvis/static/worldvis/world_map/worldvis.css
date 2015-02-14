@@ -1,5 +1,5 @@
 body {
-    background-color: #2C2A26;
+    background-color: #171412;
 }
 
 h1, h2, h3 {
@@ -9,5 +9,11 @@ h1, h2, h3 {
 
 .dropdown-menu {
 	max-height: 500%;
-	overflow: scroll;
+	overflow-y: scroll;
 }
+
+#word_map {
+	color: #171412;
+}
+
+	
